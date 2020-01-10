@@ -36,24 +36,32 @@ This is the simples way of using metrics. In any part of your code you can save 
 - Markers:
 ```php
 $registry = resolve(MetricRegistry::class);
-$registry->meter('metric-name')->mark();
+$marker = $registry->meter('metric-name');
+
+$marker->mark();
 
 
 // or you can use facade
-$timerId = \Metrics::meter('metric-name')->mark();
+$marker = \Metrics::meter('metric-name');
+
+$marker->mark();
 ```
 
 - Timers
 ```php
 $registry = resolve(MetricRegistry::class);
-$timerId = $registry->meter('metric-name', MeterType::TIMER)->start();
+$timer = $registry->meter('metric-name', MeterType::TIMER);
+
+$timerId = $timer->start();
 
 // or you can use facade
-$timerId = \Metrics::meter('metric-name', MeterType::TIMER)->start();
+$timer = \Metrics::meter('metric-name', MeterType::TIMER);
+
+$timerId = $timer->start();
 
 doSomething();
 
-$registry->meter('metric-name', MeterType::TIMER)->stop($timerId);
+$timer->stop($timerId);
 ```
 
 By default, timers are stored using `seconds` resolution. However, desired resolution can be changed before stopping 
@@ -99,11 +107,12 @@ You can also instrument your requests by using two middlewares provided:
 Route::get('/', 'HomeController@index')->middleware('mark:home-visits');
 ```
 A `Marker` is saved with the `home-visits` name;
-
+ 
 ```php
 Route::get('/page/{page}', 'PagesController@show')->middleware('measure-time:page-visits-duration');
 ```
-In the second case a `Timer` containing the request duration is saved with the `page-visit-duration` name.
+A `Timer` containing the request duration is saved with the `page-visit-duration` name.
+  
 ```php
 Route::get('/details', 'DetailsController@index')->middleware('measure-time:details-duration,milliseconds');
 ```
