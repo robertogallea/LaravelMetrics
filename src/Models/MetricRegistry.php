@@ -15,7 +15,7 @@ class MetricRegistry
      */
     public function meter(string $name, $type = null): Meter
     {
-        $type ??= MeterType::MARKER;
+        $type = $type ?? MeterType::MARKER;
 
         $class_name = class_exists($type) ? $type : __NAMESPACE__ . "\\" . Str::studly($type);
 

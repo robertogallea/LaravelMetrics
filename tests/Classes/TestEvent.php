@@ -15,6 +15,9 @@ class TestEvent implements PerformsMetrics
 
     protected $meter = 'test';
 
+    /**
+     * @param $meter
+     */
     public function setMeter($meter)
     {
         $this->meter = $meter;

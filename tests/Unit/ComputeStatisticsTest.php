@@ -3,19 +3,19 @@
 
 namespace Tests\Unit;
 
-use Carbon\Carbon;
-use Orchestra\Testbench\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Orchestra\Testbench\TestCase;
+use robertogallea\LaravelMetrics\Models\Meter;
 use robertogallea\LaravelMetrics\Models\MetricRegistry;
-use robertogallea\LaravelMetrics\Models\MarkerMeter;
-use robertogallea\LaravelMetrics\Models\Metric;
-use Spatie\TestTime\TestTime;
 
 class ComputeStatisticsTest extends TestCase
 {
     use RefreshDatabase;
 
-    private MarkerMeter $meter;
+    /**
+     * @var Meter
+     */
+    private $meter;
 
     public function setUp() : void
     {

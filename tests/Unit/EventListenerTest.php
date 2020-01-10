@@ -19,7 +19,7 @@ class EventListenerTest extends TestCase
     {
         $listener = new EventListener();
 
-        $result = $listener->handle(new TestEvent());
+        $listener->handle(new TestEvent());
 
         $registry = new MetricRegistry();
 
@@ -37,7 +37,7 @@ class EventListenerTest extends TestCase
 
         $event->setMeter(null);
 
-        $result = $listener->handle($event);
+        $listener->handle($event);
 
         $registry = new MetricRegistry();
 

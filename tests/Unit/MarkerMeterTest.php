@@ -4,19 +4,17 @@
 namespace Tests\Unit;
 
 use Carbon\Carbon;
-use Orchestra\Testbench\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Orchestra\Testbench\TestCase;
 use robertogallea\LaravelMetrics\Models\MetricRegistry;
-use robertogallea\LaravelMetrics\Models\MarkerMeter;
 use robertogallea\LaravelMetrics\Models\TimeSeriesStatistics;
 use Spatie\TestTime\TestTime;
-use Illuminate\Support\Collection;
 
 class MarkerMeterTest extends TestCase
 {
     use RefreshDatabase;
 
-    private MarkerMeter $markerMeter;
+    private $markerMeter;
 
     public function setUp(): void
     {
@@ -35,12 +33,26 @@ class MarkerMeterTest extends TestCase
     }
 
     /** @test */
-    public function it_gets_metrics_after_a_date()
+    public function it_gets_all_metrics()
     {
         $this->markerMeter->mark();
         $this->markerMeter->mark();
 
-        $this->assertCount(2, $this->markerMeter->get(Carbon::yesterday()));
+        $this->assertCount(2, $this->markerMeter->get());
+    }
+
+    /** @test */
+    public function it_gets_metrics_after_a_date()
+    {
+        $this->markerMeter->mark();
+
+        TestTime::freeze();
+
+        TestTime::subMinute();
+        $this->markerMeter->mark();
+        TestTime::addMinute();
+
+        $this->assertCount(1, $this->markerMeter->get(Carbon::now()));
     }
 
     /** @test */
@@ -72,6 +84,60 @@ class MarkerMeterTest extends TestCase
         TestTime::addDay();
 
         $this->assertCount(1, $this->markerMeter->get(Carbon::now()->subDay(), Carbon::now()->subDay()));
+    }
+
+    /** @test */
+    public function it_filters_metrics_after_a_date_using_fluent_interface()
+    {
+        TestTime::freeze();
+
+        $this->markerMeter->mark();
+
+        TestTime::addDay();
+
+        $this->markerMeter->mark();
+
+        TestTime::addDay();
+
+        $this->assertCount(1, $this->markerMeter
+            ->after(Carbon::now()->subDay())
+            ->get());
+    }
+
+    /** @test */
+    public function it_filters_metrics_before_a_date_using_fluent_interface()
+    {
+        TestTime::freeze();
+
+        $this->markerMeter->mark();
+
+        TestTime::addDay();
+
+        $this->markerMeter->mark();
+
+        TestTime::addDay();
+
+        $this->assertCount(1, $this->markerMeter
+            ->before(Carbon::now()->subDays(2))
+            ->get());
+    }
+
+    /** @test */
+    public function it_filters_metrics_in_a_range_using_fluent_interface()
+    {
+        TestTime::freeze();
+
+        $this->markerMeter->mark();
+
+        TestTime::addDay();
+
+        $this->markerMeter->mark();
+
+        TestTime::addDay();
+
+        $this->assertCount(1, $this->markerMeter
+            ->between(Carbon::now()->subDay(), Carbon::now()->subDay())
+            ->get());
     }
 
     /**

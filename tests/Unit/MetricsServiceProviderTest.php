@@ -7,7 +7,6 @@ namespace Tests\Unit;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Orchestra\Testbench\TestCase;
 use robertogallea\LaravelMetrics\Facades\Metrics;
-use robertogallea\LaravelMetrics\Listeners\EventListener;
 use robertogallea\LaravelMetrics\Models\Meter;
 use robertogallea\LaravelMetrics\Models\MetricRegistry;
 use Tests\Classes\TestEvent;

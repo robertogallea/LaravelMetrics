@@ -99,10 +99,12 @@ $meter = $registry->meter('meter-name');
 $meter->get(); // gets the entire dataset for the meter
 
 $from = Carbon::yesterday();
-$meter->get($from); // gets the dataset for meters recorded after $from
+$meter->after($from)->get(); // gets the dataset for meters recorded after $from
 
 $to = Carbon::tomorrow();
-$meter->get($from, $to); // gets the dataset for meters recorded between $from and $to
+$meter->before($from)->get(); // gets the dataset for meters recorded before $to
+
+$meter->between($from, $to)->get(); // gets the dataset for meters recorded between $from and $to
 ```
 
 - Directly querying the `Metric` Eloquent model.

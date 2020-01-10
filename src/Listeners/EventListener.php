@@ -4,12 +4,16 @@
 namespace robertogallea\LaravelMetrics\Listeners;
 
 
+use robertogallea\LaravelMetrics\Models\Interfaces\PerformsMetrics;
 use robertogallea\LaravelMetrics\Models\MetricRegistry;
 use robertogallea\LaravelMetrics\Models\Traits\Measurable;
 
 class EventListener
 {
-    public function handle($event)
+    /**
+     * @param $event
+     */
+    public function handle(PerformsMetrics $event)
     {
         if ($this->isMeasurable($event)) {
             $registry = resolve(MetricRegistry::class);
@@ -18,7 +22,7 @@ class EventListener
         }
     }
 
-    private function isMeasurable($event)
+    private function isMeasurable(PerformsMetrics $event)
     {
         return method_exists($event, 'getMeter') && is_object($event) && $event->getMeter() ;
     }

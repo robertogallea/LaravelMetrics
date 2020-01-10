@@ -3,9 +3,9 @@
 
 namespace Tests\Unit;
 
-use Orchestra\Testbench\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use robertogallea\LaravelMetrics\Models\MarkerMeter;
+use Orchestra\Testbench\TestCase;
+use robertogallea\LaravelMetrics\Models\Meter;
 use robertogallea\LaravelMetrics\Models\MeterType;
 use robertogallea\LaravelMetrics\Models\MetricRegistry;
 
@@ -13,7 +13,10 @@ class MetricRegistryTest extends TestCase
 {
     use RefreshDatabase;
 
-    private MarkerMeter $meter;
+    /**
+     * @var Meter
+     */
+    private $meter;
 
     public function setUp() : void
     {

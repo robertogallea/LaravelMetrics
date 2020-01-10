@@ -15,6 +15,9 @@ use robertogallea\LaravelMetrics\Models\MetricRegistry;
 
 class MetricsServiceProvider extends ServiceProvider
 {
+    /**
+     * Registers the ServiceProvider
+     */
     public function register()
     {
         $this->app->singleton(
@@ -32,6 +35,9 @@ class MetricsServiceProvider extends ServiceProvider
         $this->registerCollectionMacros();
     }
 
+    /**
+     * Boots the ServiceProvider
+     */
     public function boot()
     {
         $this->registerEventListener();
