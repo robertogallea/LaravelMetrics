@@ -10,6 +10,7 @@ use Orchestra\Testbench\TestCase;
 use robertogallea\LaravelMetrics\Exceptions\TimerNotStartedExpcetion;
 use robertogallea\LaravelMetrics\Models\MeterType;
 use robertogallea\LaravelMetrics\Models\MetricRegistry;
+use robertogallea\LaravelMetrics\Models\TimeResolution;
 use robertogallea\LaravelMetrics\Models\TimeSeriesStatistics;
 use Spatie\TestTime\TestTime;
 
@@ -62,6 +63,70 @@ class TimerMeterTest extends TestCase
     }
 
     /** @test */
+    public function it_returns_elapsed_time_in_milliseconds()
+    {
+        $timer = $this->sixtySecondsTimer(TimeResolution::MILLISECONDS);
+
+        $this->assertEquals(60000, $timer->getElapsed());
+    }
+
+    /** @test */
+    public function it_returns_elapsed_time_in_microseconds()
+    {
+        $timer = $this->sixtySecondsTimer(TimeResolution::MICROSECONDS);
+
+        $this->assertEquals(60000000, $timer->getElapsed());
+    }
+
+    /** @test */
+    public function it_returns_elapsed_time_in_minutes()
+    {
+        $timer = $this->sixtySecondsTimer(TimeResolution::MINUTES);
+
+        $this->assertEquals(1, $timer->getElapsed());
+    }
+
+    /** @test */
+    public function it_returns_elapsed_time_in_hours()
+    {
+        $timer = $this->nDaysTimer(1, TimeResolution::HOURS);
+
+        $this->assertEquals(24, $timer->getElapsed());
+    }
+
+    /** @test */
+    public function it_returns_elapsed_time_in_days()
+    {
+        $timer = $this->nDaysTimer(1, TimeResolution::DAYS);
+
+        $this->assertEquals(1, $timer->getElapsed());
+    }
+
+    /** @test */
+    public function it_returns_elapsed_time_in_weeks()
+    {
+        $timer = $this->nDaysTimer(7, TimeResolution::WEEKS);
+
+        $this->assertEquals(1, $timer->getElapsed());
+    }
+
+    /** @test */
+    public function it_returns_elapsed_time_in_months()
+    {
+        $timer = $this->nDaysTimer(31, TimeResolution::MONTHS);
+
+        $this->assertEquals(1, $timer->getElapsed());
+    }
+
+    /** @test */
+    public function it_returns_elapsed_time_in_years()
+    {
+        $timer = $this->nDaysTimer(366, TimeResolution::YEARS);
+
+        $this->assertEquals(1, $timer->getElapsed());
+    }
+
+    /** @test */
     public function it_saves_to_database_when_stopped()
     {
         $timer = $this->sixtySecondsTimer();
@@ -73,15 +138,40 @@ class TimerMeterTest extends TestCase
         ]);
     }
 
-    private function sixtySecondsTimer()
+    /** @test */
+    public function it_saves_resolutions_to_database()
+    {
+        $timer = $this->sixtySecondsTimer(TimeResolution::MILLISECONDS);
+
+        $this->assertDatabaseHas('metrics', [
+            'type' => $timer->getType(),
+            'name' => $timer->getName(),
+            'value' => $timer->getElapsed(),
+            'resolution' => TimeResolution::MILLISECONDS,
+        ]);
+    }
+
+    private function nMinutesTimer(int $minutes, $resolution = TimeResolution::SECONDS)
     {
         TestTime::freeze();
         $timerId = $this->timer->start();
 
-        TestTime::addMinute();
+        $this->timer->{'in' . $resolution}();
+
+        TestTime::addMinutes($minutes);
         $this->timer->stop($timerId);
 
         return $this->timer;
+    }
+
+    private function sixtySecondsTimer($resolution = TimeResolution::SECONDS)
+    {
+        return $this->nMinutesTimer(1, $resolution);
+    }
+
+    private function nDaysTimer(int $days, $resolution = TimeResolution::SECONDS)
+    {
+        return $this->nMinutesTimer($days * 60*24, $resolution);
     }
 
     /**

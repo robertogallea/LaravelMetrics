@@ -13,6 +13,8 @@ return [
 
             'value' => 'value',
 
+            'resolution' => 'resolution',
+
             'created_at' => 'created_at',
 
             'updated_at' => 'updated_at',

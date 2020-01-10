@@ -6,6 +6,7 @@ namespace robertogallea\LaravelMetrics\Http\Middleware;
 
 use robertogallea\LaravelMetrics\Models\MeterType;
 use robertogallea\LaravelMetrics\Models\MetricRegistry;
+use robertogallea\LaravelMetrics\Models\TimeResolution;
 
 class MeasureTime
 {
@@ -24,14 +25,17 @@ class MeasureTime
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
      * @param  string  $timerName
+     * @param  string $resolution
      * @return mixed
      */
-    public function handle($request, \Closure $next, $timerName)
+    public function handle($request, \Closure $next, $timerName, string $resolution = TimeResolution::SECONDS)
     {
         $timer = $this->metricRegistry->meter($timerName, MeterType::TIMER);
         $timerId = $timer->start();
+
         $result = $next($request);
-        $timer->stop($timerId);
+
+        $timer->in(ucfirst($resolution))->stop($timerId);
 
         return $result;
     }

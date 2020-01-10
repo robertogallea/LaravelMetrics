@@ -11,7 +11,7 @@ use robertogallea\LaravelMetrics\Http\Middleware\Mark;
 use robertogallea\LaravelMetrics\Models\MeterType;
 use robertogallea\LaravelMetrics\Models\MetricRegistry;
 
-class TestMarkerMiddleware extends TestCase
+class MarkerMiddlewareTest extends TestCase
 {
     use RefreshDatabase;
 

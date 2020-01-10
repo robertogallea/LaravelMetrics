@@ -56,6 +56,21 @@ doSomething();
 $registry->meter('metric-name', MeterType::TIMER)->stop($timerId);
 ```
 
+By default, timers are stored using `seconds` resolution. However, desired resolution can be changed before stopping 
+the timer:
+
+```php
+$timer->inMicrosceconds()->stop($timerId);
+$timer->inMilliseconds()->stop($timerId);
+$timer->inSeconds()->stop($timerId);
+$timer->inMinutes()->stop($timerId);
+$timer->inHours()->stop($timerId);
+$timer->inDays()->stop($timerId);
+$timer->inWeeks()->stop($timerId);
+$timer->inMonths()->stop($timerId);
+$timer->inYears()->stop($timerId);
+```
+
 ### Measuring events
 You could automatically save marker metrics during event dispatch by doing three steps:
  - Implementing the `PerformsMetrics` interface;
@@ -82,12 +97,18 @@ event(new TestEvent());
 You can also instrument your requests by using two middlewares provided:
 ```php
 Route::get('/', 'HomeController@index')->middleware('mark:home-visits');
-Route::get('/{page}', 'PageController@show')->middleware('measure-time:page-visits-duration');
 ```
+A `Marker` is saved with the `home-visits` name;
 
-In the first case a `Marker` is saved with the `home-visits` name;
-
+```php
+Route::get('/page/{page}', 'PagesController@show')->middleware('measure-time:page-visits-duration');
+```
 In the second case a `Timer` containing the request duration is saved with the `page-visit-duration` name.
+```php
+Route::get('/details', 'DetailsController@index')->middleware('measure-time:details-duration,milliseconds');
+```
+Timer could be set to a specific resolution using a second parameter.
+
 
 ## Retrieving metrics
 
