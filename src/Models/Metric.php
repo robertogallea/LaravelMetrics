@@ -12,8 +12,12 @@ class Metric extends Model
 
     public function __construct(array $attributes = [])
     {
-        parent::__construct($attributes);
-
         $this->table = config('metrics.table.name');
+
+        $this->casts = [
+            config('metrics.table.columns.metadata') => 'array'
+        ];
+
+        parent::__construct($attributes);
     }
 }

@@ -11,6 +11,7 @@ use robertogallea\LaravelMetrics\Exceptions\TimerNotStartedExpcetion;
 use robertogallea\LaravelMetrics\Models\MeterType;
 use robertogallea\LaravelMetrics\Models\MetricRegistry;
 use robertogallea\LaravelMetrics\Models\TimeResolution;
+use robertogallea\LaravelMetrics\Models\TimerMeter;
 use robertogallea\LaravelMetrics\Models\TimeSeriesStatistics;
 use Spatie\TestTime\TestTime;
 
@@ -136,6 +137,49 @@ class TimerMeterTest extends TestCase
             'name' => $timer->getName(),
             'value' => $timer->getElapsed()
         ]);
+    }
+
+    /** @test */
+    public function it_saves_metadata_when_stopped()
+    {
+        $metadata = [
+            'key' => 'value', 'other_key' => [
+                'sub_key' => 'sub_value'
+            ]
+        ];
+
+        $timerId = $this->timer->start();
+
+        $this->timer->stop($timerId, $metadata);
+
+        $this->assertEquals($metadata, $this->timer->first()->metadata);
+    }
+
+    /** @test */
+    public function it_saves_metadata_when_passed_on_start()
+    {
+        $metadata = [
+            'key' => 'value', 'other_key' => [
+                'sub_key' => 'sub_value'
+            ]
+        ];
+
+        $timerId = $this->timer->start($metadata);
+
+        $this->timer->stop($timerId);
+
+        $this->assertEquals($metadata, $this->timer->first()->metadata);
+    }
+
+    /** @test */
+    public function it_leaves_cache_clear_when_stopped()
+    {
+        $timerId = $this->timer->start(['key' => 'value']);
+
+        $this->timer->stop($timerId);
+
+        $this->assertFalse(cache()->has($timerId));
+        $this->assertFalse(cache()->has($timerId . TimerMeter::METADATA_CACHE_SUFFIX));
     }
 
     /** @test */

@@ -79,6 +79,11 @@ $timer->inMonths()->stop($timerId);
 $timer->inYears()->stop($timerId);
 ```
 
+#### Storing metadata
+
+In the case you are in need, you can also store additional metadata in your metrics, by passing a data array to the 
+`mark()` or `start()/stop()` methods:
+
 ### Measuring events
 You could automatically save marker metrics during event dispatch by doing three steps:
  - Implementing the `PerformsMetrics` interface;
@@ -158,7 +163,15 @@ $timeSeries = $this->timer->byMinute($from, $to, TimeSeriesStatistics::AVERAGE);
 $timeSeries = $this->timer->byHour($from, $to, TimeSeriesStatistics::MAX);
 $timeSeries = $this->timer->byMonth($from, $to, TimeSeriesStatistics::MIN);
 $timeSeries = $this->timer->byYear($from, $to, TimeSeriesStatistics::MIN);
-``` 
+```
+
+### Statistics on time series
+
+Once a time series is extracted, you can perform statistics on it.
+In addition to standard `Collection` methods, like `mean()`, `max()`, `min()`, `avg()`, etc., the package adds macros 
+for performing other operations. Actually the following are supported:
+- `stDev()`
+- `variance()`  
 
 ## Issues, Questions and Pull Requests
 You can report issues and ask questions in the [issues section](https://github.com/robertogallea/LaravelMetrics/issues). Please start your issue with ISSUE: and your question with QUESTION:

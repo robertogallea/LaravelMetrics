@@ -19,6 +19,8 @@ return [
 
             'updated_at' => 'updated_at',
 
+            'metadata' => 'metadata',
+
         ]
     ]
 ];

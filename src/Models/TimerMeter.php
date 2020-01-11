@@ -15,31 +15,35 @@ class TimerMeter extends Meter
     use ComputeStatistics;
     use GenerateTimeSeries;
 
+    public const METADATA_CACHE_SUFFIX = '_metadata';
     private $elapsed = null;
 
     private $resolution = TimeResolution::SECONDS;
 
-    public function start()
+    public function start(array $metadata = null)
     {
         $entry = Str::random();
 
         cache()->put($entry, Carbon::now());
+        cache()->put($entry . self::METADATA_CACHE_SUFFIX, $metadata);
 
         return $entry;
     }
 
-    public function stop($timerId)
+    public function stop($timerId, array $metadata = null)
     {
         if (!cache()->has($timerId)) {
             throw new TimerNotStartedExpcetion('Timer ' . $timerId . ' was not started');
         }
 
         $startedAt = cache()->get($timerId);
+        $metadata = $metadata ?? cache()->get($timerId . self::METADATA_CACHE_SUFFIX);
         cache()->forget($timerId);
+        cache()->forget($timerId . self::METADATA_CACHE_SUFFIX);
 
         $this->calculateElapsed($startedAt);
 
-        $this->saveToDB($startedAt);
+        $this->saveToDB($startedAt, $metadata);
 
         return $this->elapsed;
     }
@@ -122,14 +126,15 @@ class TimerMeter extends Meter
         return $this;
     }
 
-    private function saveToDB(Carbon $startedAt): Metric
+    private function saveToDB(Carbon $startedAt, array $metadata = null): Metric
     {
         return Metric::create([
             config('metrics.table.columns.type') => $this->getType(),
             config('metrics.table.columns.name') => $this->getName(),
             config('metrics.table.columns.value') => $this->getElapsed(),
             config('metrics.table.columns.resolution') => $this->resolution,
-            config('metrics.table.columns.created_at') => $startedAt
+            config('metrics.table.columns.created_at') => $startedAt,
+            config('metrics.table.columns.metadata') => $metadata
         ]);
     }
 

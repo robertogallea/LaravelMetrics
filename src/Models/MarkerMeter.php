@@ -17,11 +17,12 @@ class MarkerMeter extends Meter
      * @param int $value
      * @return Metric|null
      */
-    public function mark(int $value = 1) :? Metric
+    public function mark(array $metadata = null) :? Metric
     {
         return Metric::create([
             config('metrics.table.columns.type') => $this->getType(),
             config('metrics.table.columns.name') => $this->getName(),
+            config('metrics.table.columns.metadata') => $metadata,
         ]);
     }
 }

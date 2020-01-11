@@ -166,6 +166,20 @@ class MarkerMeterTest extends TestCase
     }
 
     /** @test */
+    public function it_saves_metadata()
+    {
+        $metadata = [
+            'key' => 'value', 'other_key' => [
+                'sub_key' => 'sub_value'
+            ]
+        ];
+
+        $this->markerMeter->mark($metadata);
+
+        $this->assertEquals($metadata, $this->markerMeter->first()->metadata);
+    }
+
+    /** @test */
     public function it_throws_execption_if_wrong_period_is_requested()
     {
         $this->expectException(\BadMethodCallException::class);
