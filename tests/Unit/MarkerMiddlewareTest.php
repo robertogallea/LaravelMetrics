@@ -6,7 +6,7 @@ namespace Tests\Unit;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
-use Orchestra\Testbench\TestCase;
+use Tests\TestCase;
 use robertogallea\LaravelMetrics\Http\Middleware\Mark;
 use robertogallea\LaravelMetrics\Models\MeterType;
 use robertogallea\LaravelMetrics\Models\MetricRegistry;

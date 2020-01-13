@@ -5,7 +5,7 @@ namespace Tests\Unit;
 
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Orchestra\Testbench\TestCase;
+use Tests\TestCase;
 use robertogallea\LaravelMetrics\Facades\Metrics;
 use robertogallea\LaravelMetrics\Models\Meter;
 use robertogallea\LaravelMetrics\Models\MetricRegistry;

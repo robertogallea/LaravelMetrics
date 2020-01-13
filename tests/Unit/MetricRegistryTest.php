@@ -4,7 +4,7 @@
 namespace Tests\Unit;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Orchestra\Testbench\TestCase;
+use Tests\TestCase;
 use robertogallea\LaravelMetrics\Models\Meter;
 use robertogallea\LaravelMetrics\Models\MeterType;
 use robertogallea\LaravelMetrics\Models\MetricRegistry;
@@ -51,5 +51,10 @@ class MetricRegistryTest extends TestCase
         ];
     }
 
-
+    protected function getPackageProviders($app)
+    {
+        return [
+            'robertogallea\LaravelMetrics\MetricsServiceProvider'
+        ];
+    }
 }

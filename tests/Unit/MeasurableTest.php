@@ -5,7 +5,7 @@ namespace Tests\Unit;
 
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Orchestra\Testbench\TestCase;
+use Tests\TestCase;
 use robertogallea\LaravelMetrics\Listeners\EventListener;
 use Tests\Classes\TestEvent;
 

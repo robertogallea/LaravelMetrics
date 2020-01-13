@@ -6,12 +6,11 @@ namespace Tests\Unit;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
-use Orchestra\Testbench\TestCase;
 use robertogallea\LaravelMetrics\Http\Middleware\MeasureTime;
 use robertogallea\LaravelMetrics\Models\MeterType;
-use robertogallea\LaravelMetrics\Models\Metric;
 use robertogallea\LaravelMetrics\Models\MetricRegistry;
 use robertogallea\LaravelMetrics\Models\TimeResolution;
+use Tests\TestCase;
 
 class TimerMiddlewareTest extends TestCase
 {

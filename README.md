@@ -84,6 +84,30 @@ $timer->inYears()->stop($timerId);
 In the case you are in need, you can also store additional metadata in your metrics, by passing a data array to the 
 `mark()` or `start()/stop()` methods:
 
+Marker
+```php
+$data = ['key' => 'value'];
+$marker->mark($data);
+```
+
+Timer
+```php
+$data = ['key' => 'value'];
+$timerId = $timer->start($data);
+
+doSomething();
+
+$timer->stop($timerId);
+```
+or
+```php
+$timerId = $timer->start();
+
+$data = doSomething();
+
+$timer->stop($timerId, $data);
+```
+
 ### Measuring events
 You could automatically save marker metrics during event dispatch by doing three steps:
  - Implementing the `PerformsMetrics` interface;

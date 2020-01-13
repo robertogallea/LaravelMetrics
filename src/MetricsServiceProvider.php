@@ -88,9 +88,11 @@ class MetricsServiceProvider extends ServiceProvider
 
     private function loadMigrations()
     {
-        $migrationsPath = $this->packagePath('database/migrations');
-
-        $this->loadMigrationsFrom($migrationsPath);
+        if (! class_exists('CreateMetricsTable')) {
+            $this->publishes([
+                __DIR__.'/../stubs/create_metrics_table.php.stub' => database_path('migrations/'.date('Y_m_d_His', time()).'_create_metrics_table.php'),
+            ], 'migrations');
+        }
     }
 
     private function packagePath($path)

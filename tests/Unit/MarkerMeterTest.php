@@ -5,7 +5,7 @@ namespace Tests\Unit;
 
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Orchestra\Testbench\TestCase;
+use Tests\TestCase;
 use robertogallea\LaravelMetrics\Models\MetricRegistry;
 use robertogallea\LaravelMetrics\Models\TimeSeriesStatistics;
 use Spatie\TestTime\TestTime;

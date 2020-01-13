@@ -4,9 +4,9 @@
 namespace Tests\Unit;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Orchestra\Testbench\TestCase;
 use robertogallea\LaravelMetrics\Models\Meter;
 use robertogallea\LaravelMetrics\Models\MetricRegistry;
+use Tests\TestCase;
 
 class ComputeStatisticsTest extends TestCase
 {
