@@ -31,6 +31,6 @@ class CreateMetricsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cashiers');
+        Schema::dropIfExists(config('metrics.table.name'));
     }
 }
