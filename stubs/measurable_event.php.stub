@@ -1,0 +1,14 @@
+<?php
+
+namespace DummyNamespace;
+
+use Illuminate\Foundation\Bus\Dispatchable;
+use robertogallea\LaravelMetrics\Models\Traits\Measurable;
+
+class DummyClass implements PerformsMetrics
+{
+    use Dispatchable;
+    use Measurable;
+
+    protected $meter = 'DummyMeter';
+}

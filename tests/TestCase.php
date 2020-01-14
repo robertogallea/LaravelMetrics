@@ -21,4 +21,11 @@ class TestCase extends Orchestra
         (new \CreateMetricsTable())->up();
     }
 
+    protected function getPackageProviders($app)
+    {
+        return [
+            'robertogallea\LaravelMetrics\MetricsServiceProvider'
+        ];
+    }
+
 }

@@ -7,6 +7,7 @@ namespace robertogallea\LaravelMetrics;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Collection;
+use robertogallea\LaravelMetrics\Console\MakeMeasurableEventCommand;
 use robertogallea\LaravelMetrics\Http\Middleware\Mark;
 use robertogallea\LaravelMetrics\Http\Middleware\MeasureTime;
 use robertogallea\LaravelMetrics\Listeners\EventListener;
@@ -110,6 +111,8 @@ class MetricsServiceProvider extends ServiceProvider
         $this->publishes([
             $this->packagePath('config/metrics.php') => config_path('metrics.php')
         ], 'config');
+
+        $this->commands([MakeMeasurableEventCommand::class]);
     }
 
     private function registerMiddlewares()

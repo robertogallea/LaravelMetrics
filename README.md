@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This package allows to record metrics in your laravel application and performs statistics.
+This package allows to record metrics in your laravel application and performing statistics.
 
 It also provides tools for implementing simple alerting mechanisms.
 
@@ -11,28 +11,29 @@ In order to install the package run
 
 `composer require robertogallea/laravel-metrics`
 
-Laravel auto-discovery will register package ServiceProviders and Aliases.
+Laravel auto-discovery will register package ServiceProvider and Aliases.
 
 ## Configuration
 If you wish to edit the package configuration run
 
-`php artisan vendor:publish --provider=robertogallea\\LaravelMetrics\\MetricsServiceProvider --tag=config`
+```shell script
+php artisan vendor:publish --provider=robertogallea\\LaravelMetrics\\MetricsServiceProvider --tag=config
+```
 
 ## Usage
 The package relies on the concept of `Metrics`.
 A metric is a measure of some type inside the application. 
 
-Currently: two types of measures are supported:
+Currently, two types of measures are supported:
 - `Markers`
 - `Timers`
 
-`Markers` are just _on/off_ metrics. They could be used to determine how many times an event occurred in your,
-application. 
+`Markers` are just their name. They could be used to determine how many times an event occurred in your application. 
 
-`Timers` tracks events duration. The could be useful to determine how long events took to complete.
+`Timers` tracks events duration. They could be useful to determine how long events took to complete.
 
 ### Save metrics
-This is the simples way of using metrics. In any part of your code you can save metrics as follows:
+This is the simplest way of using metrics. In any part of your code you can save metrics as follows:
 - Markers:
 ```php
 $registry = resolve(MetricRegistry::class);
@@ -81,7 +82,7 @@ $timer->inYears()->stop($timerId);
 
 #### Storing metadata
 
-In the case you are in need, you can also store additional metadata in your metrics, by passing a data array to the 
+If needed, you can also store additional metadata in your metrics, by passing a data array to the 
 `mark()` or `start()/stop()` methods:
 
 Marker
@@ -126,9 +127,18 @@ class TestEvent implements PerformsMetrics
 
 Now, whenever you dispatch an event, the marker is automatically saved:
 
+
 ```php
 event(new TestEvent());
 ``` 
+
+#### Creating measurable events
+For your convenience a command is registered for creating measurable events:
+
+```shell script
+php artisan make:measurable-event MyMeterEvent
+```
+
 
 ### Measuring requests
 You can also instrument your requests by using two middlewares provided:

@@ -50,11 +50,4 @@ class ComputeStatisticsTest extends TestCase
     {
         $this->assertEquals(0, $this->meter->average());
     }
-
-    protected function getPackageProviders($app)
-    {
-        return [
-            'robertogallea\LaravelMetrics\MetricsServiceProvider'
-        ];
-    }
 }
