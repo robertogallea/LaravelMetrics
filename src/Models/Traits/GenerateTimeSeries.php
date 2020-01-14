@@ -12,7 +12,7 @@ trait GenerateTimeSeries
 {
     private function by(string $period, Carbon $from, Carbon $to = null, string $aggregateBy): Collection
     {
-        $to ??= Carbon::now();
+        $to = $to ?? Carbon::now();
 
         $timeStrings = [
             'minute' => 'Y/m/d H:i',

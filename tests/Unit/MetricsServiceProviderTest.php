@@ -29,7 +29,7 @@ class MetricsServiceProviderTest extends TestCase
     {
         $this->assertSame(
             resolve(MetricRegistry::class),
-            resolve(MetricRegistry::class),
+            resolve(MetricRegistry::class)
         );
     }
 
