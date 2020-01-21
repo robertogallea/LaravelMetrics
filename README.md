@@ -1,4 +1,6 @@
-# LaravelMetrics
+# LaravelMetrics <img src="https://image.flaticon.com/icons/svg/1340/1340105.svg" width="48" />
+![Packagist Version](https://img.shields.io/packagist/v/robertogallea/laravel-metrics)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/robertogallea/LaravelMetrics/Run%20tests?label=tests)
 
 ## Introduction
 
