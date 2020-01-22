@@ -201,13 +201,18 @@ $timeSeries = $this->timer->byMonth($from, $to, TimeSeriesStatistics::MIN);
 $timeSeries = $this->timer->byYear($from, $to, TimeSeriesStatistics::MIN);
 ```
 
+Time series are generated as custom collection of type `MetricCollection`.
+
 ### Statistics on time series
 
 Once a time series is extracted, you can perform statistics on it.
-In addition to standard `Collection` methods, like `mean()`, `max()`, `min()`, `avg()`, etc., the package adds macros 
-for performing other operations. Actually the following are supported:
-- `stDev()`
-- `variance()`  
+In addition to standard `Collection` methods, like `mean()`, `max()`, `min()`, `avg()`, etc., the `MetricCollection` 
+class adds methods for performing other operations. Actually the following are supported:
+- `stDev()` - computes values standard deviation
+- `variance()` - computes values variance
+- `cumulative()` - computes discrete probability density function (i.e. cumulative sum)
+- `histogram($nbins)` - computes the histogram for the values using `nbins` bins.
+- `kolmSmirn($collection)` - computes [Kolmogorov-Smirnov](https://en.wikipedia.org/wiki/Kolmogorov%E2%80%93Smirnov_test) distance for comparing two time series.
 
 ## Issues, Questions and Pull Requests
 You can report issues and ask questions in the [issues section](https://github.com/robertogallea/LaravelMetrics/issues). Please start your issue with ISSUE: and your question with QUESTION:

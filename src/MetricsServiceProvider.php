@@ -32,8 +32,6 @@ class MetricsServiceProvider extends ServiceProvider
             $this->packagePath('config/metrics.php'),
             'metrics'
         );
-
-        $this->registerCollectionMacros();
     }
 
     /**
@@ -50,41 +48,6 @@ class MetricsServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->bootForConsole();
         }
-    }
-
-    private function registerCollectionMacros()
-    {
-        Collection::macro('variance', function ($column = null) {
-            $collection = $this;
-
-            $mean = $collection->avg();
-            $count = $collection->count();
-
-            return $collection->transform(function ($value) use ($mean) {
-                    return (($value - $mean) * ($value - $mean));
-                })->sum() / $count;
-        });
-
-        Collection::macro('stDev', function($column = null) {
-            return sqrt($this->variance($column));
-        });
-
-        Collection::macro('cumulative', function () {
-            $cumulative = 0;
-
-            return $this->transform(function ($item, $key) use (&$cumulative) {
-                $value = $item + $cumulative;
-                $cumulative += $value;
-
-                return $value;
-            });
-        });
-
-        Collection::macro('kolmSmirn', function ($collection) {
-            return $this->transform(function ($item, $key) use ($collection) {
-                return abs($item - ($collection->get($key)));
-            })->max();
-        });
     }
 
     private function loadMigrations()

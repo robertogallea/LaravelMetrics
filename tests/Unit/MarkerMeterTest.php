@@ -5,6 +5,7 @@ namespace Tests\Unit;
 
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use robertogallea\LaravelMetrics\Models\MetricCollection;
 use Tests\TestCase;
 use robertogallea\LaravelMetrics\Models\MetricRegistry;
 use robertogallea\LaravelMetrics\Models\TimeSeriesStatistics;
@@ -185,47 +186,6 @@ class MarkerMeterTest extends TestCase
         $this->expectException(\BadMethodCallException::class);
 
         $this->sampleSeries('wrong-period');
-    }
-
-    /** @test */
-    public function it_computes_std_dev()
-    {
-        $data = $this->sampleSeries();
-
-        $this->assertEquals(0.81649658092773, $data->stDev());
-    }
-
-    /** @test */
-    public function it_computes_variance()
-    {
-        $data = $this->sampleSeries();
-
-        $this->assertEquals(0.6666666666666666, $data->variance());
-    }
-
-    /** @test */
-    public function it_cumulates_histograms()
-    {
-        $data = $this->sampleSeries();
-
-        tap($data->cumulative(), function ($cumulative) {
-            $this->assertEquals(0, $cumulative->first());
-            $this->assertEquals(2, $cumulative->skip(1)->first());
-            $this->assertEquals(3, $cumulative->last());
-        });
-
-    }
-
-    /** @test */
-    public function it_computes_ks_statistics()
-    {
-        $data = $this->sampleSeries();
-
-        $this->markerMeter->mark();
-
-        $data2 = $this->markerMeter->byMinute(Carbon::now()->subMinutes(2), Carbon::now());
-
-        $this->assertEquals(1, $data->kolmSmirn($data2));
     }
 
     private function sampleSeries($period = 'minute')

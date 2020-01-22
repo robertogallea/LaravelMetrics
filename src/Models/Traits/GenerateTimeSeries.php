@@ -6,6 +6,7 @@ namespace robertogallea\LaravelMetrics\Models\Traits;
 
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
+use robertogallea\LaravelMetrics\Models\MetricCollection;
 use robertogallea\LaravelMetrics\Models\TimeSeriesStatistics;
 
 trait GenerateTimeSeries
@@ -30,6 +31,8 @@ trait GenerateTimeSeries
         $dbStats = $this->getDbStats($from, $to, $timeFormat, $aggregateBy);
 
         $stats = $this->fillHolesInStats($from, $to, $dbStats, $timeFormat, $period);
+
+        return new MetricCollection($stats);
 
         return $stats;
     }

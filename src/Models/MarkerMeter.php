@@ -3,8 +3,6 @@
 
 namespace robertogallea\LaravelMetrics\Models;
 
-use Carbon\Carbon;
-use Illuminate\Support\Collection;
 use robertogallea\LaravelMetrics\Models\Traits\ComputeStatistics;
 use robertogallea\LaravelMetrics\Models\Traits\GenerateTimeSeries;
 
