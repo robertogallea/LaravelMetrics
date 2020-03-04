@@ -6,7 +6,6 @@ namespace robertogallea\LaravelMetrics;
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Collection;
 use robertogallea\LaravelMetrics\Console\MakeMeasurableEventCommand;
 use robertogallea\LaravelMetrics\Http\Middleware\Mark;
 use robertogallea\LaravelMetrics\Http\Middleware\MeasureTime;
@@ -54,7 +53,8 @@ class MetricsServiceProvider extends ServiceProvider
     {
         if (! class_exists('CreateMetricsTable')) {
             $this->publishes([
-                __DIR__.'/../stubs/create_metrics_table.php.stub' => database_path('migrations/'.date('Y_m_d_His', time()).'_create_metrics_table.php'),
+                __DIR__.'/../stubs/create_metrics_table.php.stub' =>
+                    database_path('migrations/'.date('Y_m_d_His', time()).'_create_metrics_table.php'),
             ], 'migrations');
         }
     }
