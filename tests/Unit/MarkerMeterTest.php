@@ -148,6 +148,7 @@ class MarkerMeterTest extends TestCase
     public function it_aggregates_by_time_period($timePeriod)
     {
         $data = $this->sampleSeries($timePeriod);
+//        dd($data);
 
         $this->assertCount(3, $data);
         $this->assertEquals(0, $data->first());
@@ -157,13 +158,11 @@ class MarkerMeterTest extends TestCase
 
     public function timePeriods()
     {
-        return [
-            ['minute'],
-            ['hour'],
-            ['day'],
-            ['month'],
-            ['year']
-        ];
+        yield ['minute'];
+        yield ['hour'];
+        yield ['day'];
+        yield ['month'];
+        yield ['year'];
     }
 
     /** @test */
@@ -199,8 +198,9 @@ class MarkerMeterTest extends TestCase
 
         $this->markerMeter->mark();
 
+        $from = $period == 'month' ? Carbon::now()->subMonthNoOverflow(2) : Carbon::now()->{'sub' . ucfirst($period) . 's'}(2);
         $data = $this->markerMeter->{'by' . ucfirst($period)}(
-            Carbon::now()->{'sub' . ucfirst($period) . 's'}(2), Carbon::now(), TimeSeriesStatistics::COUNT
+            $from, Carbon::now(), TimeSeriesStatistics::COUNT
         );
 
         return $data;
