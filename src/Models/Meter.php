@@ -7,6 +7,7 @@ namespace robertogallea\LaravelMetrics\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 abstract class Meter
 {
@@ -30,7 +31,7 @@ abstract class Meter
      */
     public function getType(): string
     {
-        return \Str::kebab(class_basename($this));
+        return Str::kebab(class_basename($this));
     }
 
     /**
