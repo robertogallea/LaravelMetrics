@@ -23,16 +23,16 @@ php artisan vendor:publish --provider=robertogallea\\LaravelMetrics\\MetricsServ
 ```
 
 ## Usage
-The package relies on the concept of `Metrics`.
+The package relies on the concept of `Metric`.
 A metric is a measure of some type inside the application. 
 
 Currently, two types of measures are supported:
 - `Markers`
 - `Timers`
 
-`Markers` are just their name. They could be used to determine how many times an event occurred in your application. 
+`Markers` are just their name. These could be used to determine how many times an event occurred in your application. 
 
-`Timers` tracks events duration. They could be useful to determine how long events took to complete.
+`Timers` tracks events duration. These could be useful to determine how long events took to complete.
 
 ### Save metrics
 This is the simplest way of using metrics. In any part of your code you can save metrics as follows:

@@ -4,8 +4,6 @@
 namespace robertogallea\LaravelMetrics\Models\Traits;
 
 
-use robertogallea\LaravelMetrics\Models\MetricCollection;
-
 trait ComputeStatistics
 {
     /**
